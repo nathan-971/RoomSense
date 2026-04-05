@@ -1,0 +1,61 @@
+# ----------------------
+# OS files
+# ----------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------
+# Python
+# ----------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+venv/
+.env/
+.envrc
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# ----------------------
+# Java / Spring Boot
+# ----------------------
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+
+# ----------------------
+# IntelliJ IDEA
+# ----------------------
+.idea/
+*.iml
+*.iws
+
+# ----------------------
+# VS Code
+# ----------------------
+.vscode/
+
+# ----------------------
+# Misc
+# ----------------------
+node_modules/
+coverage/
