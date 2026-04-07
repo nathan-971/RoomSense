@@ -1,5 +1,5 @@
 from DataLayer.connection import Connection
-from Entities.sensorDataContainer import SensorDataContainer
+from Entities.SensorDataContainer import SensorDataContainer
 
 class SensorReadingsRepository:
     def __init__(self, connection: Connection):
