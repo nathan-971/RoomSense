@@ -28,14 +28,14 @@ sense = SenseHat()
 dataContainer = SensorDataContainer()
 
 AC_PIN = 11
-HEATER_PIN = 13
+HEATER_PIN = 12
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(AC_PIN, GPIO.OUT)
 GPIO.setup(HEATER_PIN, GPIO.OUT)
 
-GPIO.output(AC_PIN, GPIO.HIGH)
-GPIO.output(HEATER_PIN, GPIO.HIGH)
+GPIO.output(AC_PIN, GPIO.LOW)
+GPIO.output(HEATER_PIN, GPIO.LOW)
 
 # Data Access Setup
 dbCon = Connection()
@@ -57,18 +57,18 @@ def handleManualMode(deviceState, currentTime):
     for cmd in commands:
         if cmd.actuator == Actuator.AC:
             deviceState.acState = not deviceState.acState
-            if(deviceState.acState):
-                GPIO.output(AC_PIN, GPIO.LOW)
-            else:
+            if deviceState.acState :
                 GPIO.output(AC_PIN, GPIO.HIGH)
+            else:
+                GPIO.output(AC_PIN, GPIO.LOW)
             print(f"MANUAL: AC device set to {deviceState.acState}")
 
         if cmd.actuator == Actuator.HEATER:
             deviceState.heaterState = not deviceState.heaterState
             if deviceState.heaterState:
-                GPIO.output(HEATER_PIN, GPIO.LOW)
-            else:
                 GPIO.output(HEATER_PIN, GPIO.HIGH)
+            else:
+                GPIO.output(HEATER_PIN, GPIO.LOW)
             print(f"MANUAL: Heater device set to {deviceState.heaterState}")
         
         cmd.executedAt = currentTime
@@ -81,18 +81,18 @@ def handleAutomaticMode(deviceState, sensorData):
 
     if sensorData.temperature > idealTemperature or sensorData.humidity > idealHumidity:
         deviceState.acState = True
-        GPIO.output(AC_PIN, GPIO.LOW)
+        GPIO.output(AC_PIN, GPIO.HIGH)
     else:
         deviceState.acState = False
-        GPIO.output(AC_PIN, GPIO.HIGH)
+        GPIO.output(AC_PIN, GPIO.LOW)
     print(f"AUTO: AC device set to {deviceState.acState}")
 
     if sensorData.temperature < idealTemperature:
         deviceState.heaterState = True
-        GPIO.output(HEATER_PIN, GPIO.LOW)
+        GPIO.output(HEATER_PIN, GPIO.HIGH)
     else:
         deviceState.heaterState = False
-        GPIO.output(HEATER_PIN, GPIO.HIGH)
+        GPIO.output(HEATER_PIN, GPIO.LOW)
     print(f"AUTO: Heater device set to {deviceState.heaterState}")
 
 try:
