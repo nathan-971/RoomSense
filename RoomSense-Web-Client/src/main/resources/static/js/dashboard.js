@@ -100,14 +100,14 @@ function renderControls(deviceState)
 
                 <div class="mb-3">
                     <p><strong>Air Conditioning:</strong> <span class="badge bg-${deviceState.acState ? 'success' : 'secondary'}">${deviceState.acState ? 'ON' : 'OFF'}</span></p>
-                    <button class="btn btn-${deviceState.acState ? 'danger' : 'success'} w-100 mb-2" onclick="sendCommand('${deviceState.acState ? 'AC_OFF' : 'AC_ON'}')">
+                    <button class="btn btn-${deviceState.acState ? 'danger' : 'success'} w-100 mb-2" value="AC" onclick="sendCommand(this)">
                         Turn ${deviceState.acState ? 'Off' : 'On'}
                     </button>
                 </div>
 
                 <div class="mb-3">
                     <p><strong>Heater:</strong> <span class="badge bg-${deviceState.heaterState ? 'success' : 'secondary'}">${deviceState.heaterState ? 'ON' : 'OFF'}</span></p>
-                    <button class="btn btn-${deviceState.heaterState ? 'danger' : 'success'} w-100" onclick="sendCommand('${deviceState.heaterState ? 'HEATER_OFF' : 'HEATER_ON'}')">
+                    <button class="btn btn-${deviceState.heaterState ? 'danger' : 'success'} w-100" value="HEATER" onclick="sendCommand(this)">
                         Turn ${deviceState.heaterState ? 'Off' : 'On'}
                     </button>
                 </div>
@@ -119,10 +119,8 @@ function renderControls(deviceState)
 function renderDashboard(sensorData)
 {
     renderLatestState(sensorData);
-
     const latest = sensorData.reduce((a, b) =>
         new Date(a.timestamp) > new Date(b.timestamp) ? a : b
     );
-
     renderChartFromData(sensorData);
 }

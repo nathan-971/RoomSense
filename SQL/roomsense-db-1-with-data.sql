@@ -25,13 +25,13 @@ DROP TABLE IF EXISTS `actuation_command`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `actuation_command` (
-  `actuation_command_id` int(11) NOT NULL,
+  `actuation_command_id` int(11) NOT NULL AUTO_INCREMENT,
   `actuator` enum('AC','HEATER') NOT NULL,
   `status` enum('QUEUED','COMPLETED') NOT NULL,
   `created_at` datetime NOT NULL,
-  `executed_at` datetime NOT NULL,
+  `executed_at` datetime DEFAULT NULL,
   PRIMARY KEY (`actuation_command_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `actuation_command` (
 
 LOCK TABLES `actuation_command` WRITE;
 /*!40000 ALTER TABLE `actuation_command` DISABLE KEYS */;
+INSERT INTO `actuation_command` VALUES (1,'AC','QUEUED','2026-04-07 14:57:13',NULL),(2,'HEATER','QUEUED','2026-04-07 14:57:20',NULL),(3,'HEATER','QUEUED','2026-04-07 14:57:23',NULL),(4,'AC','QUEUED','2026-04-07 14:57:23',NULL),(5,'HEATER','QUEUED','2026-04-07 14:57:24',NULL),(6,'AC','QUEUED','2026-04-07 14:57:24',NULL);
 /*!40000 ALTER TABLE `actuation_command` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,4 +115,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-07  1:39:23
+-- Dump completed on 2026-04-07 15:05:17

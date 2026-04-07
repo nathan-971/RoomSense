@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class ActuationCommand
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer actuationCommandId;
 
     @Enumerated(EnumType.STRING)

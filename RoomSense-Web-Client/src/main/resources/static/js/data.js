@@ -33,18 +33,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 });
 
-function sendCommand(command)
+function sendCommand(button)
 {
-    fetch("/api/v1/device-state/send", {
+    const actuationDevice = {
+        actuator: button.value
+    }
+
+    fetch("/api/v1/actuation-command/send", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ command: command })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("Command sent:", data);
+        body: JSON.stringify(actuationDevice)
     })
     .catch(err => console.error(err));
 }

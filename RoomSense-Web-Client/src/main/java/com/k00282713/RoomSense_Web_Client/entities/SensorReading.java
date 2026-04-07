@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class SensorReading
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer sensorDataId;
 
     private Double temperature;
