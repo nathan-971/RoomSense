@@ -1,5 +1,5 @@
 from enum import Enum
 
 class Actuator(Enum):
-    AC = 1,
-    HEATER = 2
+    AC = "AC"
+    HEATER = "HEATER"

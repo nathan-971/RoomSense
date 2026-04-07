@@ -13,9 +13,6 @@ class Connection:
                 password = 'password1234',
                 database = 'roomsense'
             )
-
-            if self.connection.is_connected():
-                print("Database Connection Created")
         
         except Error as ex:
             print(f"Error Occurred while Connecting to Database: {ex}")
@@ -24,7 +21,6 @@ class Connection:
     def Close(self):
         if self.connection and self.connection.is_connected():
             self.connection.close()
-            print("Database Connection Closed")
 
     def Query(self, query, params, fetch = False):
         if(self.connection is None):

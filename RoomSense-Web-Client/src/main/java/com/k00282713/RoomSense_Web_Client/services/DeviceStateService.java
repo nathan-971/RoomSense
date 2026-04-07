@@ -31,10 +31,9 @@ public class DeviceStateService
 
     public Flux<DeviceStateDTO> streamDeviceState()
     {
-        return Flux.interval(Duration.ofSeconds(streamInterval)).flatMap(tick -> Flux.defer(() ->
-                Flux.fromIterable(deviceStateRepository.findAll())
-                        .map(this::mapToDTO)
-                        .subscribeOn(Schedulers.boundedElastic())));
+        return Flux.interval(Duration.ofSeconds(1))
+                .flatMap(tick -> getDeviceState(1))
+                .distinctUntilChanged();
     }
 
     private DeviceStateDTO mapToDTO(DeviceState deviceState)

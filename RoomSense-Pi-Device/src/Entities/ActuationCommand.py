@@ -3,13 +3,13 @@ from Entities.Enums.Actuator import Actuator
 class ActuationCommand:
     def __init__(
             self,
-            actuatonCommandId = 0,
+            actuationCommandId = 0,
             actuator = None,
             status = None,
             createdAt = None,
             executedAt = None
         ):
-            self.actuationCommandId = actuatonCommandId
+            self.actuationCommandId = actuationCommandId
             self.actuator = actuator
             self.status = status
             self.createdAt = createdAt

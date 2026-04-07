@@ -1,4 +1,6 @@
 from DataLayer.connection import Connection
+
+from Entities.Enums.Mode import Mode
 from Entities.DeviceState import DeviceState
 
 class DeviceStateRepository:
@@ -25,7 +27,24 @@ class DeviceStateRepository:
                 deviceStateId = result.get("device_state_id", 0),
                 heaterState = result.get("heater_state", False),
                 acState = result.get("ac_state", False),
-                mode = result.get("mode", None)
+                mode = Mode(result.get("mode"))
             )
 
             return deviceState
+        
+    def update(self, data):
+        query = """
+            UPDATE device_state 
+            SET ac_state = %s, heater_state = %s
+            WHERE device_state_Id = %s
+        """
+
+        params = (
+            data.acState,
+            data.heaterState,
+            data.deviceStateId
+        )
+
+        self.db.Open()
+        self.db.Query(query, params)
+        self.db.Close()

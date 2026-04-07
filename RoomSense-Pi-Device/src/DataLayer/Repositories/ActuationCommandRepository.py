@@ -1,4 +1,7 @@
 from DataLayer.connection import Connection
+
+from Entities.Enums.Actuator import Actuator
+from Entities.Enums.Status import Status
 from Entities.ActuationCommand import ActuationCommand
 
 class ActuationCommandRepository:
@@ -8,12 +11,13 @@ class ActuationCommandRepository:
     def update(self, data):
         query = """
             UPDATE actuation_command 
-            SET executed_at = %s
+            SET executed_at = %s, status = %s
             WHERE actuation_command_id = %s
         """
 
         params = (
             data.executedAt,
+            data.status.value,
             data.actuationCommandId
         )
 
@@ -21,8 +25,12 @@ class ActuationCommandRepository:
         self.db.Query(query, params)
         self.db.Close()
 
-    def findAll(self):
-        query = "SELECT * FROM actuation_command WHERE status = 'QUEUED'"
+    def findAllQueued(self):
+        query = """
+            SELECT * FROM actuation_command 
+            WHERE status = 'QUEUED'
+            ORDER BY created_at
+        """
 
         self.db.Open()
         params = None
@@ -33,9 +41,9 @@ class ActuationCommandRepository:
         if(rows):
             for row in rows:
                 actuationCommand = ActuationCommand(
-                    actuatonCommandId = row.get("actuation_command_id", 0),
-                    actuator = row.get("actuator", None),
-                    status = row.get("status", None),
+                    actuationCommandId = row.get("actuation_command_id", 0),
+                    actuator = Actuator(row.get("actuator")),
+                    status = Status(row.get("status")),
                     createdAt = row.get("created_at", None),
                     executedAt = row.get("executed_at", None)
                 )
