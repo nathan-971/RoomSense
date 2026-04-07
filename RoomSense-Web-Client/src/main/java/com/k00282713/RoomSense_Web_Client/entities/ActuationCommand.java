@@ -23,13 +23,13 @@ public class ActuationCommand
     private LocalDateTime createdAt;
     private LocalDateTime  executedAt;
 
-    ActuationCommand() { }
-    ActuationCommand(
-            Integer actuationCommandId,
-            Actuator actuator,
-            Status status,
-            LocalDateTime createdAt,
-            LocalDateTime executedAt
+    public ActuationCommand() { }
+    public ActuationCommand(
+        Integer actuationCommandId,
+        Actuator actuator,
+        Status status,
+        LocalDateTime createdAt,
+        LocalDateTime executedAt
     )
     {
         this.actuationCommandId = actuationCommandId;

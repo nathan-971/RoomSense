@@ -1,8 +1,8 @@
 <div th:fragment="content" class="d-flex flex-column h-100">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
-  <script th:src="@{/js/data.js}"></script>
-  <script th:src="@{/js/dashboard.js}"></script>
+  <script th:src="@{/js/data.js(v=${#dates.createNow().getTime()})}"></script>
+  <script th:src="@{/js/dashboard.js(v=${#dates.createNow().getTime()})}"></script>
 
   <h1 class="text-center mb-5 mt-2 fw-bold">Dashboard</h1>
 

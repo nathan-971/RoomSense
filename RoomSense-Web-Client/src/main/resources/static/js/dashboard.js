@@ -91,7 +91,7 @@ function renderLatestState(sensorData)
 }
 
 function renderControls(deviceState)
- {
+{
     const container = document.getElementById("controlsSection");
     container.innerHTML = `
         <div class="card shadow-sm rounded">
@@ -116,23 +116,7 @@ function renderControls(deviceState)
     `;
 }
 
-function sendCommand(command)
-{
-    fetch("/api/device/command", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ command: command })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("Command sent:", data);
-    })
-    .catch(err => console.error(err));
-}
-
-function renderDashboard(sensorData, deviceState)
+function renderDashboard(sensorData)
 {
     renderLatestState(sensorData);
 
@@ -140,6 +124,5 @@ function renderDashboard(sensorData, deviceState)
         new Date(a.timestamp) > new Date(b.timestamp) ? a : b
     );
 
-    renderControls(deviceState);
     renderChartFromData(sensorData);
 }
