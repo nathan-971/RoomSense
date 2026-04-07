@@ -14,8 +14,12 @@ public class ActuationCommand
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer actuationCommandId;
 
+    @Enumerated(EnumType.STRING)
     private Actuator actuator;
+
+    @Enumerated(EnumType.STRING)
     private Status status;
+
     private LocalDateTime createdAt;
     private LocalDateTime  executedAt;
 

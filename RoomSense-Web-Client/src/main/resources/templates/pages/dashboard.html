@@ -1,5 +1,22 @@
 <div th:fragment="content" class="d-flex flex-column h-100">
-  <h1>RoomSense Dashboard</h1>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
-  <script th:src="@{/js/sensorData.js}"></script>
+  <script th:src="@{/js/data.js}"></script>
+  <script th:src="@{/js/dashboard.js}"></script>
+
+  <h1 class="text-center mb-5 mt-2 fw-bold">Dashboard</h1>
+
+  <div class="row g-4">
+    <div id="latestState" class="col-lg-4 col-md-12">
+
+    </div>
+
+    <div id="chartsContainer" class="col-lg-5 col-md-12">
+
+    </div>
+
+    <div id="controlsSection" class="col-lg-3 col-md-12">
+
+    </div>
+  </div>
 </div>

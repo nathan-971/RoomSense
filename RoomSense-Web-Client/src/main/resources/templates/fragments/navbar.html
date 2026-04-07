@@ -1,15 +1,7 @@
-<nav th:fragment="navbar" class="shadow-sm navbar navbar-expand-lg navbar-light">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" th:href="@{/}">
-            RoomSense
+<nav th:fragment="navbar" class="shadow-sm navbar navbar-light">
+    <div class="container d-flex justify-content-center">
+        <a th:href="@{/}">
+            <img width="256" height="64" src="/assets/logo.svg" class="m-2 navbar-logo">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"></li>
-            </ul>
-        </div>
     </div>
 </nav>

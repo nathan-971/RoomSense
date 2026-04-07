@@ -1,35 +1,17 @@
-package com.k00282713.RoomSense_Web_Client.entities;
+package com.k00282713.RoomSense_Web_Client.entities.dto;
 
 import com.k00282713.RoomSense_Web_Client.entities.enums.Mode;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
-@Entity
-@Table(name = "device_state")
-public class DeviceState
+public class DeviceStateDTO
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer deviceStateId;
-
     private Boolean heaterState;
     private Boolean acState;
 
     @Enumerated(EnumType.STRING)
     private Mode mode;
-
-    DeviceState() { }
-    DeviceState(
-            Integer deviceStateId,
-            Boolean heaterState,
-            Boolean acState,
-            Mode mode
-    )
-    {
-        this.deviceStateId = deviceStateId;
-        this.heaterState = heaterState;
-        this.acState = acState;
-        this.mode = mode;
-    }
 
     public Integer getDeviceStateId()
     {
