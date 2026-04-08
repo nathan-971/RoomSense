@@ -49,6 +49,18 @@ function sendCommand(button)
     .catch(err => console.error(err));
 }
 
+function toggleMode(currentDeviceMode)
+{
+    fetch('/api/v1/device-state/switchMode', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            mode: currentDeviceMode === 'AUTO' ? 'MANUAL' : 'AUTO'
+        })
+    })
+    .catch(err => console.error(err));
+}
+
 async function FetchFromAPI(uri)
 {
     const response = await fetch(uri);

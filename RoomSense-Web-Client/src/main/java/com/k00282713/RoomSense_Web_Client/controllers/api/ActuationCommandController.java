@@ -21,7 +21,8 @@ public class ActuationCommandController
     @PostMapping("/send")
     public ResponseEntity<?> sendCommand(@RequestBody ActuationCommandRequest request)
     {
-        ActuationCommandResponse response = actuationCommandService.processCommand(request);
+        Integer device = 1; //Hardcoded DeviceId as for this project I only have 1 Raspberry PI
+        ActuationCommandResponse response = actuationCommandService.processCommand(request, device);
         if(response.getSuccess())
         {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);

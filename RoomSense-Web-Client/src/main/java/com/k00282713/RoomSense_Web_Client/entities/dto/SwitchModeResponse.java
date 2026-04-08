@@ -1,9 +1,8 @@
 package com.k00282713.RoomSense_Web_Client.entities.dto;
 
-public class ActuationCommandResponse
+public class SwitchModeResponse
 {
     private String message;
-    private Boolean success;
 
     public Boolean getSuccess()
     {
@@ -15,6 +14,8 @@ public class ActuationCommandResponse
         this.success = success;
     }
 
+    private Boolean success;
+
     public String getMessage()
     {
         return message;
@@ -24,4 +25,5 @@ public class ActuationCommandResponse
     {
         this.message = message;
     }
+
 }
