@@ -95,21 +95,30 @@ def handleAutomaticMode(deviceState, sensorData):
         GPIO.output(HEATER_PIN, GPIO.LOW)
     print(f"AUTO: Heater device set to {deviceState.heaterState}")
 
+lastSensorSaveTime = 0
+SENSOR_SAVE_INTERVAL = 300 # 5 Minutes
+
 try:
     while True:
-        sensorData = gatherSensorData()
-        sensorData.Print()
-        deviceState = deviceStateRepository.findById(1) #Device ID hardcoded as I only have 1 Raspberry PI
+        currentTime = time.time()
+        deviceState = deviceStateRepository.findById(1) # Device ID hardcoded as I only have 1 Raspberry PI
         
+        sensorData = gatherSensorData()
+
         if deviceState.mode == Mode.MANUAL:
-            currentTime = datetime.now()
-            handleManualMode(deviceState, currentTime)
+            currentDateTime = datetime.now()
+            handleManualMode(deviceState, currentDateTime)
         else:
             handleAutomaticMode(deviceState, sensorData)
 
+        if currentTime - lastSensorSaveTime >= SENSOR_SAVE_INTERVAL:
+            sensorReadingsRepository.insert(sensorData)
+            print("Sensor Data Saved")
+            lastSensorSaveTime = currentTime
+
         #sensorReadingsRepository.insert(sensorData)
         deviceStateRepository.update(deviceState)
-        time.sleep(5)
+        time.sleep(1)
         
 except KeyboardInterrupt:
     dbCon.Close()
