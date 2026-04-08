@@ -1,30 +1,43 @@
-document.addEventListener("DOMContentLoaded", async function () {
+let deviceState = null;
+let latestReading = null;
+let sensorData = [];
+
+document.addEventListener("DOMContentLoaded", async function ()
+{
     try
     {
-        const sensorData = await FetchFromAPI("/api/v1/sensor-readings/get");
-        if (!sensorData || sensorData.length === 0)
+        const initialData = await FetchFromAPI("/api/v1/sensor-readings/getFromLastHour");
+        if (initialData && initialData.length > 0)
         {
-            return;
+            sensorData = initialData;
+            renderChartFromData(sensorData);
         }
-        renderDashboard(sensorData);
 
         const initialDeviceState = await FetchFromAPI("/api/v1/device-state/get");
         if (initialDeviceState)
         {
-            renderControls(initialDeviceState);
+            deviceState = initialDeviceState;
+            renderControls(deviceState);
         }
 
-        const deviceStateSource = new EventSource("/api/v1/device-state/stream");
-        console.log(deviceStateSource);
-        deviceStateSource.onmessage = function(event)
+        const sensorSource = new EventSource("/api/v1/sensor-readings/stream");
+
+        sensorSource.onmessage = function(event)
         {
-            const deviceState = JSON.parse(event.data);
-            renderControls(deviceState);
+            latestReading = JSON.parse(event.data);
+
+            sensorData.push(latestReading);
+            if (sensorData.length > 60) sensorData.shift();
+
+            renderLatestState(latestReading);
+            renderChartFromData(sensorData);
         };
 
-        deviceStateSource.onerror = function(err)
+        const deviceSource = new EventSource("/api/v1/device-state/stream");
+        deviceSource.onmessage = function(event)
         {
-            console.error("Device state SSE Error", err);
+            deviceState = JSON.parse(event.data);
+            renderControls(deviceState);
         };
     }
     catch (error)
@@ -37,7 +50,7 @@ function sendCommand(button)
 {
     const actuationDevice = {
         actuator: button.value
-    }
+    };
 
     fetch("/api/v1/actuation-command/send", {
         method: "POST",
@@ -46,7 +59,15 @@ function sendCommand(button)
         },
         body: JSON.stringify(actuationDevice)
     })
-    .catch(err => console.error(err));
+    .then(result => result.json())
+    .then(data => {
+        if (!data.success) {
+            showPopup(data.message || "Command failed");
+        }
+    })
+    .catch(err => {
+        showPopup("Network error. Please try again.");
+    });
 }
 
 function toggleMode(currentDeviceMode)
@@ -58,16 +79,45 @@ function toggleMode(currentDeviceMode)
             mode: currentDeviceMode === 'AUTO' ? 'MANUAL' : 'AUTO'
         })
     })
-    .catch(err => console.error(err));
+    .then(result => result.json())
+    .then(data => {
+        if (!data.success) {
+            showPopup(data.message || "Failed to switch mode");
+        }
+    })
+    .catch(err => {
+        showPopup("Network error while switching mode.");
+    });
 }
 
 async function FetchFromAPI(uri)
 {
-    const response = await fetch(uri);
-    if (!response.ok)
-     {
-        console.log("No Data Found");
+    try
+    {
+        const response = await fetch(uri);
+        if (!response.ok)
+        {
+            let errorMessage = "Something went wrong";
+            try
+            {
+                const text = await response.text();
+                if (text)
+                {
+                    errorMessage = text;
+                }
+            }
+            catch (e)
+            {
+                showPopup
+            }
+            showPopup(errorMessage);
+            return null;
+        }
+        return await response.json();
+    }
+    catch (err)
+    {
+        showPopup("Network error. Please try again.");
         return null;
     }
-    return await response.json();
 }

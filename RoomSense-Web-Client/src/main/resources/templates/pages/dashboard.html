@@ -1,22 +1,20 @@
 <div th:fragment="content" class="d-flex flex-column h-100">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+    <script th:src="@{/js/messagemodal.js(v=${#dates.createNow().getTime()})}"></script>
+    <script th:src="@{/js/data.js(v=${#dates.createNow().getTime()})}"></script>
+    <script th:src="@{/js/dashboard.js(v=${#dates.createNow().getTime()})}"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
-  <script th:src="@{/js/data.js(v=${#dates.createNow().getTime()})}"></script>
-  <script th:src="@{/js/dashboard.js(v=${#dates.createNow().getTime()})}"></script>
-
-  <h1 class="text-center mb-5 mt-2 fw-bold">Dashboard</h1>
-
-  <div class="row g-4">
-    <div id="latestState" class="col-lg-4 col-md-12">
-
+    <h1 class="text-center mb-2 mt-2 fw-bold">Dashboard</h1>
+    <div class="row mb-4">
+        <div class="col-lg-6 mb-3">
+            <div id="controlsSection" class="card shadow-sm rounded h-100"></div>
+        </div>
+        <div class="col-lg-6 mb-3">
+            <div id="latestState" class="card shadow-sm rounded h-100"></div>
+        </div>
     </div>
 
-    <div id="chartsContainer" class="col-lg-5 col-md-12">
-
+    <div class="charts-scroll-container mb-4">
+        <div id="chartsContainer" class="d-flex flex-row"></div>
     </div>
-
-    <div id="controlsSection" class="col-lg-3 col-md-12">
-
-    </div>
-  </div>
 </div>
