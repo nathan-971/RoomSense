@@ -20,6 +20,8 @@ from DataLayer.Repositories.DeviceStateRepository import DeviceStateRepository
 from sense_hat import SenseHat
 from datetime import datetime
 
+from gpiozero import MotionSensor
+
 import RPi.GPIO as GPIO
 import time
 
@@ -27,10 +29,12 @@ import time
 sense = SenseHat()
 dataContainer = SensorDataContainer()
 
+GPIO.setmode(GPIO.BOARD)
+
 AC_PIN = 11
 HEATER_PIN = 12
+PIR = MotionSensor(27)
 
-GPIO.setmode(GPIO.BOARD)
 GPIO.setup(AC_PIN, GPIO.OUT)
 GPIO.setup(HEATER_PIN, GPIO.OUT)
 
@@ -47,7 +51,7 @@ def gatherSensorData():
     return SensorDataContainer(
         temperature = round(sense.get_temperature_from_humidity(), 2),
         humidity = round(sense.get_humidity(), 2),
-        movementDetected = 0, # 0 UNTIL PIR SENSOR INTEGRATED
+        movementDetected = 1 if PIR.motion_detected else 0,
         lightLevel = 50, # 50 UNTIL PHOTORESISTOR INTEGRATED
         timestamp = datetime.now()
     )
@@ -100,10 +104,12 @@ SENSOR_SAVE_INTERVAL = 300 # 5 Minutes
 
 try:
     while True:
+        
         currentTime = time.time()
         deviceState = deviceStateRepository.findById(1) # Device ID hardcoded as I only have 1 Raspberry PI
         
         sensorData = gatherSensorData()
+        sensorData.Print()
 
         if deviceState.mode == Mode.MANUAL:
             currentDateTime = datetime.now()
@@ -111,10 +117,10 @@ try:
         else:
             handleAutomaticMode(deviceState, sensorData)
 
-        if currentTime - lastSensorSaveTime >= SENSOR_SAVE_INTERVAL:
-            sensorReadingsRepository.insert(sensorData)
-            print("Sensor Data Saved")
-            lastSensorSaveTime = currentTime
+        #if currentTime - lastSensorSaveTime >= SENSOR_SAVE_INTERVAL:
+            #sensorReadingsRepository.insert(sensorData)
+            #print("Sensor Data Saved")
+            #lastSensorSaveTime = currentTime
 
         #sensorReadingsRepository.insert(sensorData)
         deviceStateRepository.update(deviceState)
