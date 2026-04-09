@@ -22,6 +22,6 @@ class SensorDataContainer:
             Temperature: {self.temperature} °C
             Humidity: {self.humidity} %
             Movement Detected: {self.movementDetected}
-            Light Level: {self.lightLevel}
+            Light Level: {self.lightLevel} %
             Timestamp: {self.timestamp}
         """)

@@ -10,7 +10,7 @@ function renderChartFromData(sensorData)
     const metrics = [
         { key: "temperature", label: "Temperature (°C)", color: "#f1c40f", fill: "#f1c40f80" },
         { key: "humidity", label: "Humidity (%)", color: "#3498db", fill: "#3498db80" },
-        { key: "lightLevel", label: "Light Level", color: "#9b59b6", fill: "#9b59b680" },
+        { key: "lightLevel", label: "Light Level(%)", color: "#9b59b6", fill: "#9b59b680" },
         { key: "movementDetected", label: "Movement Detected", color: "#e74c3c", fill: "#e74c3c80" }
     ];
 
